@@ -1,0 +1,41 @@
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FinanceService } from '../../../../core/services/finance.service';
+
+@Component({
+  selector: 'app-transaction-form',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './transaction-form.html',
+  styleUrl: './transaction-form.scss'
+})
+export class TransactionForm {
+  transactionForm: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private financeService: FinanceService,
+    private router: Router
+  ) {
+    this.transactionForm = this.fb.group({
+      type: ['expense'],
+      amount: [null, [Validators.required, Validators.min(1)]],
+      category: ['other'],
+      description: [''],
+      date: [new Date().toISOString().split('T')[0]]
+    });
+  }
+
+  setType(type: 'income' | 'expense'): void {
+    this.transactionForm.patchValue({ type });
+  }
+
+  onSubmit(): void {
+    if (this.transactionForm.valid) {
+      this.financeService.addTransaction(this.transactionForm.value);
+      this.router.navigate(['/dashboard']);
+    }
+  }
+}

@@ -2,11 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TransactionSummary } from '../../../../core/models/transaction.model';
 import { FinanceService } from '../../../../core/services/finance.service';
+import { TransactionList } from '../../../transactions/components/transaction-list/transaction-list';
+import { SpendingChart } from '../../components/spending-chart/spending-chart';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TransactionList, SpendingChart],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })

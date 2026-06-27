@@ -1,0 +1,25 @@
+<div class="transaction-list">
+    <h2 class="transaction-list__title">Recent Transactions</h2>
+
+    <div class="empty" *ngIf="transactions.length === 0">
+        <p>No transactions yet. Add one to get started.</p>
+    </div>
+
+    <div class="transaction-item" *ngFor="let t of transactions">
+        <div class="transaction-item__left">
+            <span class="transaction-item__category">{{ t.category }}</span>
+            <span class="transaction-item__description">{{ t.description ||
+                'No description' }}</span>
+            <span class="transaction-item__date">{{ t.date }}</span>
+        </div>
+        <div class="transaction-item__right">
+            <span class="transaction-item__amount"
+                [class.income]="t.type === 'income'"
+                [class.expense]="t.type === 'expense'">
+                {{ t.type === 'income' ? '+' : '-' }}₹{{ t.amount | number }}
+            </span>
+            <button class="transaction-item__delete"
+                (click)="delete(t.id)">✕</button>
+        </div>
+    </div>
+</div>
