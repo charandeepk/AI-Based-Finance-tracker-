@@ -1,0 +1,31 @@
+<div class="dashboard">
+    <div class="dashboard__header">
+        <h1>Good morning 👋</h1>
+        <p>Here's your financial summary</p>
+    </div>
+
+    <div class="dashboard__cards">
+        <div class="card income">
+            <span class="card__label">Total Income</span>
+            <span class="card__amount">₹{{ summary.totalIncome | number
+                }}</span>
+        </div>
+
+        <div class="card expenses">
+            <span class="card__label">Total Expenses</span>
+            <span class="card__amount">₹{{ summary.totalExpenses | number
+                }}</span>
+        </div>
+
+        <div class="card savings">
+            <span class="card__label">Net Savings</span>
+            <span class="card__amount">₹{{ summary.netSavings | number }}</span>
+        </div>
+
+        <div class="card rate">
+            <span class="card__label">Savings Rate</span>
+            <span class="card__amount">{{ summary.savingsRate | number:'1.0-0'
+                }}%</span>
+        </div>
+    </div>
+</div>
