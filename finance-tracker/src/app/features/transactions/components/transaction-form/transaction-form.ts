@@ -13,6 +13,8 @@ import { FinanceService } from '../../../../core/services/finance.service';
 })
 export class TransactionForm {
   transactionForm: FormGroup;
+  incomeCategories = ['salary', 'business', 'freelance', 'investments', 'other'];
+  expenseCategories = ['food', 'travel', 'rent', 'health', 'entertainment', 'shopping', 'education', 'other'];
 
   constructor(
     private fb: FormBuilder,
@@ -29,7 +31,11 @@ export class TransactionForm {
   }
 
   setType(type: 'income' | 'expense'): void {
-    this.transactionForm.patchValue({ type });
+    this.transactionForm.patchValue({ type, category: 'other' });
+  }
+
+  getCategoriesForType(type: 'income' | 'expense'): string[] {
+    return type === 'income' ? this.incomeCategories : this.expenseCategories;
   }
 
   onSubmit(): void {

@@ -20,4 +20,12 @@ describe('TransactionForm', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should expose income categories for income transactions', () => {
+    expect(component.getCategoriesForType('income')).toEqual(jasmine.arrayContaining(['salary', 'business', 'freelance']));
+  });
+
+  it('should expose expense categories for expense transactions', () => {
+    expect(component.getCategoriesForType('expense')).toEqual(jasmine.arrayContaining(['food', 'travel', 'rent', 'health', 'entertainment']));
+  });
 });
