@@ -32,16 +32,11 @@
         <div class="form-group">
             <label>Category</label>
             <select formControlName="category">
-                <option value>Select category</option>
-                <option value="food">Food</option>
-                <option value="transport">Transport</option>
-                <option value="housing">Housing</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="health">Health</option>
-                <option value="shopping">Shopping</option>
-                <option value="education">Education</option>
-                <option value="investments">Investments</option>
-                <option value="other">Other</option>
+                <option value="">Select category</option>
+                <option *ngFor="let category of getCategoriesForType(transactionForm.get('type')?.value || 'expense')"
+                    [value]="category">
+                    {{ category | titlecase }}
+                </option>
             </select>
         </div>
 
