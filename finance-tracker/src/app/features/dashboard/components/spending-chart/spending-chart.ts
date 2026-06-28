@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, OnChanges, OnDestroy, ViewChild } from '@angular/core';
-import { ArcElement, Chart, DoughnutController, Legend, Tooltip } from 'chart.js';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { TransactionSummary } from '../../../../core/models/transaction.model';
-
-Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
 
 @Component({
   selector: 'app-spending-chart',
@@ -12,63 +9,50 @@ Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
   templateUrl: './spending-chart.html',
   styleUrl: './spending-chart.scss'
 })
-export class SpendingChart implements OnChanges, OnDestroy {
+export class SpendingChart implements OnChanges {
   @Input() summary!: TransactionSummary;
-  @ViewChild('chartCanvas') chartCanvas!: ElementRef;
 
-  chart: Chart | null = null;
+  spendingItems: Array<{ category: string; amount: number; color: string }> = [];
   isEmpty = true;
 
-  ngOnChanges(): void {
-    const byCategory = this.summary?.byCategory ?? {};
-    const entries = Object.entries(byCategory).filter(([, val]) => val > 0);
-    this.isEmpty = entries.length === 0;
-
-    if (!this.isEmpty) {
-      setTimeout(() => this.renderChart(entries), 0);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['summary'] && this.summary) {
+      const byCategory = this.summary.byCategory ?? {};
+      this.spendingItems = Object.entries(byCategory)
+        .filter(([, amount]) => amount > 0)
+        .map(([category, amount], index) => ({
+          category,
+          amount,
+          color: this.getColorForCategory(category, index)
+        }))
+        .sort((a, b) => b.amount - a.amount);
+      this.isEmpty = this.spendingItems.length === 0;
     }
   }
 
-  ngOnDestroy(): void {
-    this.chart?.destroy();
+  getBarWidth(amount: number): number {
+    if (this.spendingItems.length === 0) {
+      return 0;
+    }
+
+    const maxAmount = Math.max(...this.spendingItems.map(item => item.amount));
+    return maxAmount > 0 ? (amount / maxAmount) * 100 : 0;
   }
 
-  renderChart(entries: [string, number][]): void {
-    if (!this.chartCanvas) return;
-
-    const labels = entries.map(([cat]) => cat);
-    const data = entries.map(([, val]) => val);
-    const colors = [
-      '#4ade80', '#f87171', '#60a5fa', '#facc15',
-      '#a78bfa', '#fb923c', '#34d399', '#f472b6'
+  getColorForCategory(category: string, index: number): string {
+    const palette = [
+      'linear-gradient(90deg, #3b82f6, #60a5fa)',
+      'linear-gradient(90deg, #ef4444, #f87171)',
+      'linear-gradient(90deg, #10b981, #34d399)',
+      'linear-gradient(90deg, #f59e0b, #fbbf24)',
+      'linear-gradient(90deg, #8b5cf6, #a78bfa)',
+      'linear-gradient(90deg, #ec4899, #f472b6)',
+      'linear-gradient(90deg, #0f766e, #2dd4bf)',
+      'linear-gradient(90deg, #6366f1, #818cf8)'
     ];
 
-    if (this.chart) {
-      this.chart.destroy();
-    }
-
-    this.chart = new Chart(this.chartCanvas.nativeElement, {
-      type: 'doughnut',
-      data: {
-        labels,
-        datasets: [{
-          data,
-          backgroundColor: colors.slice(0, labels.length),
-          borderWidth: 0
-        }]
-      },
-      options: {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'bottom',
-      labels: { color: '#64748b', padding: 16, font: { size: 13 } }
-    },
-    title: {
-      display: false
-    }
-  }
-}
-    });
+    const normalizedCategory = category.toLowerCase();
+    const hash = [...normalizedCategory].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return palette[(hash + index) % palette.length];
   }
 }

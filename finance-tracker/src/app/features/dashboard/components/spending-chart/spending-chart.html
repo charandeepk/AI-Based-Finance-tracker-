@@ -1,7 +1,19 @@
 <div class="chart-container">
     <h3 class="chart-container__title">Spending by Category</h3>
+
     <div class="chart-container__empty" *ngIf="isEmpty">
         <p>Add some expenses to see your spending breakdown</p>
     </div>
-    <canvas #chartCanvas *ngIf="!isEmpty"></canvas>
+
+    <div class="spending-list" *ngIf="!isEmpty">
+        <div class="spending-item" *ngFor="let item of spendingItems">
+            <div class="spending-item__header">
+                <span class="spending-item__label">{{ item.category | titlecase }}</span>
+                <span class="spending-item__amount">₹{{ item.amount | number }}</span>
+            </div>
+            <div class="spending-item__bar">
+                <div class="spending-item__fill" [style.width.%]="getBarWidth(item.amount)" [style.background]="item.color"></div>
+            </div>
+        </div>
+    </div>
 </div>
