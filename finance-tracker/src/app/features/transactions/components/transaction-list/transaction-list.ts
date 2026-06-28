@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Transaction } from '../../../../core/models/transaction.model';
 import { FinanceService } from '../../../../core/services/finance.service';
 
 @Component({
   selector: 'app-transaction-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './transaction-list.html',
   styleUrl: './transaction-list.scss'
 })

@@ -1,12 +1,17 @@
 <div class="transaction-list">
-    <h2 class="transaction-list__title">Recent Transactions</h2>
+    <div class="transaction-list__header">
+        <h2 class="transaction-list__title">Recent Transactions</h2>
+        <a routerLink="/transactions" class="transaction-list__viewall">View All
+            →</a>
+    </div>
 
     <div class="empty" *ngIf="transactions.length === 0">
         <p>No transactions yet. Add one to get started.</p>
     </div>
 
     <div class="transaction-list__scroll" *ngIf="transactions.length > 0">
-        <div class="transaction-item" *ngFor="let t of transactions">
+        <div class="transaction-item"
+            *ngFor="let t of transactions | slice:0:5">
             <div class="transaction-item__left">
                 <span class="transaction-item__category">{{ t.category }}</span>
                 <span class="transaction-item__description">{{ t.description ||
