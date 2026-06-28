@@ -1,7 +1,9 @@
-<div class="chart-container">
+<div>
     <h3 class="chart-container__title">Spending by Category</h3>
-    <div class="chart-container__empty" *ngIf="isEmpty">
-        <p>Add some expenses to see your spending breakdown</p>
+    <div class="chart-container">
+        <div class="chart-container__empty" *ngIf="isEmpty">
+            <p>Add some expenses to see your spending breakdown</p>
+        </div>
+        <canvas #chartCanvas *ngIf="!isEmpty"></canvas>
     </div>
-    <canvas #chartCanvas *ngIf="!isEmpty"></canvas>
 </div>

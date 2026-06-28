@@ -1,12 +1,8 @@
 .transaction-list {
-  max-width: 720px;
-  margin: 32px auto;
-  padding: 0 24px;
-
   &__title {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 700;
-    color: #ffffff;
+    color: #1e293b;
     margin-bottom: 16px;
   }
 }
@@ -14,12 +10,12 @@
 .empty {
   padding: 32px;
   text-align: center;
-  background-color: #1a1a2e;
+  background-color: #ffffff;
   border-radius: 12px;
-  border: 1px dashed #16213e;
+  border: 1px dashed #e2e8f0;
 
   p {
-    color: #94a3b8;
+    color: #64748b;
     font-size: 14px;
   }
 }
@@ -29,14 +25,15 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  background-color: #1a1a2e;
-  border: 1px solid #16213e;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
   margin-bottom: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   transition: border-color 0.2s ease;
 
   &:hover {
-    border-color: #4ade80;
+    border-color: #3b82f6;
   }
 
   &__left {
@@ -48,18 +45,18 @@
   &__category {
     font-size: 13px;
     font-weight: 600;
-    color: #ffffff;
+    color: #1e293b;
     text-transform: capitalize;
   }
 
   &__description {
     font-size: 13px;
-    color: #94a3b8;
+    color: #64748b;
   }
 
   &__date {
     font-size: 12px;
-    color: #475569;
+    color: #94a3b8;
   }
 
   &__right {
@@ -72,26 +69,21 @@
     font-size: 16px;
     font-weight: 700;
 
-    &.income {
-      color: #4ade80;
-    }
-
-    &.expense {
-      color: #f87171;
-    }
+    &.income { color: #16a34a; }
+    &.expense { color: #dc2626; }
   }
 
   &__delete {
     background: none;
-    color: #475569;
+    color: #94a3b8;
     font-size: 14px;
     padding: 4px 8px;
     border-radius: 6px;
     transition: all 0.2s ease;
 
     &:hover {
-      background-color: #f87171;
-      color: #ffffff;
+      background-color: #fee2e2;
+      color: #dc2626;
     }
   }
 }

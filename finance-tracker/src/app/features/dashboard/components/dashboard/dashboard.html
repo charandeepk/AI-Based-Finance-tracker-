@@ -29,6 +29,12 @@
         </div>
     </div>
 
-    <app-spending-chart [summary]="summary" />
-    <app-transaction-list />
+    <div class="dashboard__bottom">
+        <div class="dashboard__bottom--left">
+            <app-spending-chart [summary]="summary" />
+        </div>
+        <div class="dashboard__bottom--right">
+            <app-transaction-list />
+        </div>
+    </div>
 </div>

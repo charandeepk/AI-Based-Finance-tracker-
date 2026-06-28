@@ -58,14 +58,17 @@ export class SpendingChart implements OnChanges, OnDestroy {
         }]
       },
       options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: { color: '#94a3b8', padding: 16, font: { size: 13 } }
-          }
-        }
-      }
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+      labels: { color: '#64748b', padding: 16, font: { size: 13 } }
+    },
+    title: {
+      display: false
+    }
+  }
+}
     });
   }
 }
