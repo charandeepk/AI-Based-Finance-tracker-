@@ -20,8 +20,4 @@ export class TransactionList implements OnInit {
       this.transactions = transactions;
     });
   }
-
-  delete(id: string): void {
-    this.financeService.deleteTransaction(id);
-  }
 }

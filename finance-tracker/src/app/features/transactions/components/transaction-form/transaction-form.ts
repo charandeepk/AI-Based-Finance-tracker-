@@ -24,14 +24,15 @@ export class TransactionForm {
     this.transactionForm = this.fb.group({
       type: ['expense'],
       amount: [null, [Validators.required, Validators.min(1)]],
-      category: ['other'],
+      category: [this.expenseCategories[0]],
       description: [''],
       date: [new Date().toISOString().split('T')[0]]
     });
   }
 
   setType(type: 'income' | 'expense'): void {
-    this.transactionForm.patchValue({ type, category: 'other' });
+    const defaultCategory = type === 'income' ? this.incomeCategories[0] : this.expenseCategories[0];
+    this.transactionForm.patchValue({ type, category: defaultCategory });
   }
 
   getCategoriesForType(type: 'income' | 'expense'): string[] {
