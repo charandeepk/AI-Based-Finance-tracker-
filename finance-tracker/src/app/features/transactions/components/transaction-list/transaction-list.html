@@ -20,8 +20,6 @@
                     {{ t.type === 'income' ? '+' : '-' }}₹{{ t.amount | number
                     }}
                 </span>
-                <button class="transaction-item__delete"
-                    (click)="delete(t.id)">✕</button>
             </div>
         </div>
     </div>
