@@ -28,4 +28,9 @@ describe('TransactionForm', () => {
   it('should expose expense categories for expense transactions', () => {
     expect(component.getCategoriesForType('expense')).toEqual(jasmine.arrayContaining(['food', 'travel', 'rent', 'health', 'entertainment']));
   });
+
+  it('should select the first income category when switching type to income', () => {
+    component.setType('income');
+    expect(component.transactionForm.get('category')?.value).toBe('salary');
+  });
 });
