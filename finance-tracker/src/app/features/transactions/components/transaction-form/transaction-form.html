@@ -1,60 +1,97 @@
-<div class="form-container">
-    <h2 class="form-container__title">Add Transaction</h2>
+<div class="transactions-page">
+    <div class="transactions-page__form">
+        <div class="form-container">
+            <h2 class="form-container__title">Add Transaction</h2>
 
-    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
 
-        <div class="form-group">
-            <label>Type</label>
-            <div class="toggle">
-                <button type="button"
-                    [class.active]="transactionForm.get('type')?.value === 'income'"
-                    (click)="setType('income')">
-                    Income
+                <div class="form-group">
+                    <label>Type</label>
+                    <div class="toggle">
+                        <button type="button"
+                            [class.active]="transactionForm.get('type')?.value === 'income'"
+                            (click)="setType('income')">
+                            Income
+                        </button>
+                        <button type="button"
+                            [class.active]="transactionForm.get('type')?.value === 'expense'"
+                            (click)="setType('expense')">
+                            Expense
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount (₹)</label>
+                    <input type="number" formControlName="amount"
+                        placeholder="Enter amount" />
+                    <span class="error"
+                        *ngIf="transactionForm.get('amount')?.invalid && transactionForm.get('amount')?.touched">
+                        Amount is required
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <select formControlName="category">
+                        <option value>Select category</option>
+                        <option
+                            *ngFor="let category of getCategoriesForType(transactionForm.get('type')?.value || 'expense')"
+                            [value]="category">
+                            {{ category | titlecase }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" formControlName="description"
+                        placeholder="What was this for?" />
+                </div>
+
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" formControlName="date" />
+                </div>
+
+                <button type="submit" class="btn-submit"
+                    [disabled]="transactionForm.invalid">
+                    Add Transaction
                 </button>
-                <button type="button"
-                    [class.active]="transactionForm.get('type')?.value === 'expense'"
-                    (click)="setType('expense')">
-                    Expense
-                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="transactions-page__list">
+        <div class="list-container">
+            <h2 class="list-container__title">All Transactions</h2>
+
+            <div class="empty" *ngIf="transactions.length === 0">
+                <p>No transactions yet. Add one to get started.</p>
+            </div>
+
+            <div class="list-scroll" *ngIf="transactions.length > 0">
+                <div class="transaction-item" *ngFor="let t of transactions">
+                    <div class="transaction-item__left">
+                        <span class="transaction-item__category">{{ t.category
+                            }}</span>
+                        <span class="transaction-item__description">{{
+                            t.description || 'No description' }}</span>
+                        <span class="transaction-item__date">{{ t.date }}</span>
+                    </div>
+                    <div class="transaction-item__right">
+                        <span class="transaction-item__amount"
+                            [class.income]="t.type === 'income'"
+                            [class.expense]="t.type === 'expense'">
+                            {{ t.type === 'income' ? '+' : '-' }}₹{{ t.amount |
+                            number }}
+                        </span>
+                        <button class="btn-delete"
+                            (click)="delete(t.id)">✕</button>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label>Amount (₹)</label>
-            <input type="number" formControlName="amount"
-                placeholder="Enter amount" />
-            <span class="error"
-                *ngIf="transactionForm.get('amount')?.invalid && transactionForm.get('amount')?.touched">
-                Amount is required
-            </span>
-        </div>
-
-        <div class="form-group">
-            <label>Category</label>
-            <select formControlName="category">
-                <option value="">Select category</option>
-                <option *ngFor="let category of getCategoriesForType(transactionForm.get('type')?.value || 'expense')"
-                    [value]="category">
-                    {{ category | titlecase }}
-                </option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Description</label>
-            <input type="text" formControlName="description"
-                placeholder="What was this for?" />
-        </div>
-
-        <div class="form-group">
-            <label>Date</label>
-            <input type="date" formControlName="date" />
-        </div>
-
-        <button type="submit" class="btn-submit"
-            [disabled]="transactionForm.invalid">
-            Add Transaction
-        </button>
-
-    </form>
+    </div>
 </div>
